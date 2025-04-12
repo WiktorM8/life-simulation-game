@@ -3,4 +3,8 @@ project(LifeSimulationGame)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(LifeSimulationGame main.cpp)
+add_executable(LifeSimulationGame main.cpp
+        World.cpp
+        GameManager.cpp
+        Organism/Organism.cpp
+)
