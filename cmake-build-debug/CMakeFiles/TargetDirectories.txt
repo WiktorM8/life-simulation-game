@@ -1,0 +1,3 @@
+D:/pliki/studia/semestr 2/AISD/projekt/LifeSimulationGame/cmake-build-debug/CMakeFiles/LifeSimulationGame.dir
+D:/pliki/studia/semestr 2/AISD/projekt/LifeSimulationGame/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/pliki/studia/semestr 2/AISD/projekt/LifeSimulationGame/cmake-build-debug/CMakeFiles/rebuild_cache.dir
