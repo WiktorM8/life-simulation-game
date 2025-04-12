@@ -73,6 +73,18 @@ build CMakeFiles/LifeSimulationGame.dir/Organism/Organism.cpp.obj: CXX_COMPILER_
   OBJECT_DIR = CMakeFiles\LifeSimulationGame.dir
   OBJECT_FILE_DIR = CMakeFiles\LifeSimulationGame.dir\Organism
 
+build CMakeFiles/LifeSimulationGame.dir/Organism/Animal/Animal.cpp.obj: CXX_COMPILER__LifeSimulationGame_unscanned_Debug D$:/pliki/studia/semestr$ 2/AISD/projekt/LifeSimulationGame/Organism/Animal/Animal.cpp || cmake_object_order_depends_target_LifeSimulationGame
+  DEP_FILE = CMakeFiles\LifeSimulationGame.dir\Organism\Animal\Animal.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\LifeSimulationGame.dir
+  OBJECT_FILE_DIR = CMakeFiles\LifeSimulationGame.dir\Organism\Animal
+
+build CMakeFiles/LifeSimulationGame.dir/Organism/Animal/Wolf.cpp.obj: CXX_COMPILER__LifeSimulationGame_unscanned_Debug D$:/pliki/studia/semestr$ 2/AISD/projekt/LifeSimulationGame/Organism/Animal/Wolf.cpp || cmake_object_order_depends_target_LifeSimulationGame
+  DEP_FILE = CMakeFiles\LifeSimulationGame.dir\Organism\Animal\Wolf.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\LifeSimulationGame.dir
+  OBJECT_FILE_DIR = CMakeFiles\LifeSimulationGame.dir\Organism\Animal
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target LifeSimulationGame
@@ -81,7 +93,7 @@ build CMakeFiles/LifeSimulationGame.dir/Organism/Organism.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the executable LifeSimulationGame.exe
 
-build LifeSimulationGame.exe: CXX_EXECUTABLE_LINKER__LifeSimulationGame_Debug CMakeFiles/LifeSimulationGame.dir/main.cpp.obj CMakeFiles/LifeSimulationGame.dir/World.cpp.obj CMakeFiles/LifeSimulationGame.dir/GameManager.cpp.obj CMakeFiles/LifeSimulationGame.dir/Organism/Organism.cpp.obj
+build LifeSimulationGame.exe: CXX_EXECUTABLE_LINKER__LifeSimulationGame_Debug CMakeFiles/LifeSimulationGame.dir/main.cpp.obj CMakeFiles/LifeSimulationGame.dir/World.cpp.obj CMakeFiles/LifeSimulationGame.dir/GameManager.cpp.obj CMakeFiles/LifeSimulationGame.dir/Organism/Organism.cpp.obj CMakeFiles/LifeSimulationGame.dir/Organism/Animal/Animal.cpp.obj CMakeFiles/LifeSimulationGame.dir/Organism/Animal/Wolf.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\LifeSimulationGame.dir

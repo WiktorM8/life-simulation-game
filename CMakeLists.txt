@@ -7,4 +7,7 @@ add_executable(LifeSimulationGame main.cpp
         World.cpp
         GameManager.cpp
         Organism/Organism.cpp
+        definitions.h
+        Organism/Animal/Animal.cpp
+        Organism/Animal/Wolf.cpp
 )
