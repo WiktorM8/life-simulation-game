@@ -12,6 +12,11 @@ Wolf::Wolf(const int x, const int y, World* world)
 
 Wolf::~Wolf() = default;
 
+std::unique_ptr<Animal> Wolf::makeChild() const {
+    const auto wolf = new Wolf(this->getPositionX(), this->getPositionY(), this->getWorld());
+    return std::unique_ptr<Animal>(wolf);
+}
+
 void Wolf::draw() {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
     std::cout << "W";

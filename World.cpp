@@ -8,6 +8,7 @@
 #include <iostream>
 #include <conio.h>
 
+#include "Organism/Animal/Sheep.h"
 #include "Organism/Animal/Wolf.h"
 
 World::World(const int width, const int height) : width(width), height(height) {}
@@ -31,7 +32,14 @@ int World::getHeight() const {
 }
 
 void World::addOrganism(std::unique_ptr<Organism> organism) {
-    organisms.push_back(std::move(organism));
+    new_organisms.emplace_back(std::move(organism));
+}
+
+void World::mergeNewOrganisms() {
+    organisms.insert(organisms.end(),
+                     std::make_move_iterator(new_organisms.begin()),
+                     std::make_move_iterator(new_organisms.end()));
+    new_organisms.clear();
 }
 
 void World::sortOrganisms() {
@@ -45,10 +53,18 @@ void World::sortOrganisms() {
 }
 
 void World::generateStartingOrganisms() {
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 3; ++i) {
         addOrganism(std::make_unique<Wolf>(std::rand() % width, std::rand() % height, this));
     }
+    for (int i = 0; i < 6; ++i) {
+        addOrganism(std::make_unique<Sheep>(std::rand() % width, std::rand() % height, this));
+    }
 }
+
+const std::vector<std::unique_ptr<Organism> > &World::getOrganisms() const {
+    return this->organisms;
+}
+
 
 void World::removeDeadOrganisms() {
     std::erase_if(
@@ -60,6 +76,7 @@ void World::removeDeadOrganisms() {
 }
 
 void World::makeTurn() {
+    mergeNewOrganisms();
     sortOrganisms();
 
     for (const auto& organism : organisms) {
@@ -89,5 +106,33 @@ void World::draw() {
             }
         }
         std::cout << std::endl;
+    }
+    displayMessages();
+    clearMessages();
+}
+
+bool World::isFieldEmpty(const int x, const int y) const {
+    for (const auto& organism : organisms) {
+        if (organism->getPositionX() == x && organism->getPositionY() == y) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+void World::addMessage(const std::string& message) {
+    world_messages.emplace_back(message);
+}
+
+void World::clearMessages() {
+    world_messages.clear();
+}
+
+void World::displayMessages() const {
+    std::cout << "Wydarzenia w tej turze:" << std::endl;
+    int i = 1;
+    for (const auto& message : world_messages) {
+        std::cout << i++ << ". " << message << std::endl;
     }
 }

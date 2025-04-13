@@ -10,4 +10,5 @@ add_executable(LifeSimulationGame main.cpp
         definitions.h
         Organism/Animal/Animal.cpp
         Organism/Animal/Wolf.cpp
+        Organism/Animal/Sheep.cpp
 )

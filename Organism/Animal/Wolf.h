@@ -4,13 +4,15 @@
 
 #ifndef WOLF_H
 #define WOLF_H
-#include "Animal.h"
+#include "Animal.h"  
 
 
 class Wolf final : public Animal {
 public:
     Wolf(int x, int y, World* world);
     ~Wolf() override;
+
+    [[nodiscard]] std::unique_ptr<Animal> makeChild() const override;
 
     void draw() override;
 };
