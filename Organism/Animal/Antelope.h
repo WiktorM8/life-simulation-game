@@ -4,11 +4,21 @@
 
 #ifndef ANTELOPE_H
 #define ANTELOPE_H
+#include "Animal.h"
 
 
+class Antelope final : public Animal {
+public:
+    Antelope(Position position, World *world);
+    ~Antelope() override;
 
-class Antelope {
+    [[nodiscard]] std::unique_ptr<Animal> makeChild() const override;
 
+    void draw() override;
+
+    void makeMove() override;
+    void collision(Organism* other) override;
+    bool defendAttack(Organism* attacker) override;
 };
 
 

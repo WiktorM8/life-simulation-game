@@ -76,37 +76,23 @@ void Animal::makeMove() {
     int newX = this->getPositionX();
     int newY = this->getPositionY();
 
-    bool moved = false;
-    while (!moved) {
-        switch (int direction = std::rand() % 4) {
-            case 0:
-                if (newY > 0) {
-                    newY--;
-                    moved = true;
-                }
+    const int axis = std::rand() % 2; // 0 - horizontal, 1 - vertical
+    if (axis == 0) {
+        while (true) {
+            newX += (std::rand() % 3) - 1;
+            if (newX >= 0 && newX < worldWidth) {
                 break;
-            case 1:
-                if (newY < worldHeight - 1) {
-                    newY++;
-                    moved = true;
-                }
+            }
+        }
+    } else {
+        while (true) {
+            newY += (std::rand() % 3) - 1;
+            if (newY >= 0 && newY < worldHeight) {
                 break;
-            case 2:
-                if (newX > 0) {
-                    newX--;
-                    moved = true;
-                }
-                break;
-            case 3:
-                if (newX < worldWidth - 1) {
-                    newX++;
-                    moved = true;
-                }
-                break;
-            default:
-                break;
+            }
         }
     }
+
     // Move the animal to the new position
     this->moveTo(newX, newY);
 }
@@ -154,7 +140,7 @@ void Animal::attack(Animal* other) {
     }
 }
 
-std::optional<std::pair<int, int>> Animal::getRandomFreePosition() const {
+std::optional<Position> Animal::getRandomFreePosition() const {
     const int directions[4][2] = {
         {0, -1},  // up
         {0, 1},   // down
@@ -162,7 +148,7 @@ std::optional<std::pair<int, int>> Animal::getRandomFreePosition() const {
         {1, 0}    // right
     };
 
-    std::vector<std::pair<int, int>> freePositions;
+    std::vector<Position> freePositions;
 
     for (const auto& dir : directions) {
         int newX = this->getPositionX() + dir[0];
@@ -199,8 +185,8 @@ void Animal::breed(Animal* other) {
     }
 
     auto child = this->makeChild();
-    child->setPositionX(freePosition->first);
-    child->setPositionY(freePosition->second);
+    child->setPositionX(freePosition->x);
+    child->setPositionY(freePosition->y);
     child->setBreedCooldown(BREED_COOLDOWN);
     this->getWorld()->addOrganism(std::move(child));
 
@@ -211,7 +197,7 @@ void Animal::breed(Animal* other) {
             " na pozycji x=" + std::to_string(this->getPositionX() + 1) +
             ", y=" + std::to_string(this->getPositionY() + 1) +
             " urodzily dziecko na pozycji x=" +
-            std::to_string(freePosition->first) + ", y=" + std::to_string(freePosition->second)
+            std::to_string(freePosition->x) + ", y=" + std::to_string(freePosition->y)
             );
 }
 

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <conio.h>
 
+#include "Organism/Animal/Antelope.h"
 #include "Organism/Animal/Fox.h"
 #include "Organism/Animal/Sheep.h"
 #include "Organism/Animal/Turtle.h"
@@ -70,6 +71,10 @@ void World::generateStartingOrganisms() {
     for (int i = 0; i < 5; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Turtle>(new_position, this));
+    }
+    for (int i = 0; i < 4; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Antelope>(new_position, this));
     }
 }
 

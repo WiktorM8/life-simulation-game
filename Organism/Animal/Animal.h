@@ -44,7 +44,7 @@ public:
     void decrementBreedCooldown();
     [[nodiscard]] bool isReadyToBreed() const;
     [[nodiscard]] int getBreedCooldown() const;
-    [[nodiscard]] std::optional<std::pair<int, int>> getRandomFreePosition() const;
+    [[nodiscard]] std::optional<Position> getRandomFreePosition() const;
     void moveTo(int x, int y);
     void moveTo(Position position);
 
