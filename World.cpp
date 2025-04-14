@@ -8,7 +8,9 @@
 #include <iostream>
 #include <conio.h>
 
+#include "Organism/Animal/Fox.h"
 #include "Organism/Animal/Sheep.h"
+#include "Organism/Animal/Turtle.h"
 #include "Organism/Animal/Wolf.h"
 
 World::World(const int width, const int height) : width(width), height(height) {}
@@ -54,10 +56,20 @@ void World::sortOrganisms() {
 
 void World::generateStartingOrganisms() {
     for (int i = 0; i < 3; ++i) {
-        addOrganism(std::make_unique<Wolf>(std::rand() % width, std::rand() % height, this));
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Wolf>(new_position, this));
     }
     for (int i = 0; i < 6; ++i) {
-        addOrganism(std::make_unique<Sheep>(std::rand() % width, std::rand() % height, this));
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Sheep>(new_position, this));
+    }
+    for (int i = 0; i < 4; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Fox>(new_position, this));
+    }
+    for (int i = 0; i < 5; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Turtle>(new_position, this));
     }
 }
 

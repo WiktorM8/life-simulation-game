@@ -4,9 +4,9 @@
 
 #include "Organism.h"
 
-Organism::Organism(const int x, const int y, const int strength, const int initiative,
-                  const OrganismType type, World* world)
-        : positionX(x), positionY(y), strength(strength), initiative(initiative), alive(true),
+Organism::Organism(const Position position, const int strength, const int initiative,
+                   const OrganismType type, World* world)
+        : position(position), strength(strength), initiative(initiative), alive(true),
           type(type), world(world) {
     this->age = 0;
 }
@@ -17,10 +17,13 @@ Organism::~Organism() = default;
  * Setters and Getters
  */
 void Organism::setPositionX(const int x) {
-    this->positionX = x;
+    this->position.x = x;
 }
 void Organism::setPositionY(const int y) {
-    this->positionY = y;
+    this->position.y = y;
+}
+void Organism::setPosition(const Position position) {
+    this->position = position;
 }
 void Organism::setAge(const int age) {
     this->age = age;
@@ -44,10 +47,13 @@ void Organism::setWorld(World* world) {
     this->world = world;
 }
 int Organism::getPositionX() const {
-    return positionX;
+    return position.x;
 }
 int Organism::getPositionY() const {
-    return positionY;
+    return position.y;
+}
+Position Organism::getPosition() const {
+    return position;
 }
 int Organism::getAge() const {
     return age;

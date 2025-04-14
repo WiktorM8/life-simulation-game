@@ -7,9 +7,10 @@
 #include <iostream>
 #include <optional>
 
-Animal::Animal(const int x, const int y, const int strength, const int initiative,
+Animal::Animal(const Position position, const int strength, const int initiative,
                const AnimalSpecies species, World* world)
-        : Organism(x, y, strength, initiative, ANIMAL, world), species(species) {
+        : Organism(position, strength, initiative, ANIMAL, world), species(species) {
+    this->lastPosition = position;
     this->breedCooldown = 0;
 }
 
@@ -55,16 +56,20 @@ void Animal::decrementBreedCooldown() {
 }
 
 
-void Animal::moveTo(int x, int y) {
+void Animal::moveTo(const int x, const int y) {
     if (x >= 0 && x < this->getWorld()->getWidth() && y >= 0 && y < this->getWorld()->getHeight()) {
+        this->setLastPosition(this->getPosition());
         this->setPositionX(x);
         this->setPositionY(y);
     } else {
         std::cerr << "Invalid move to (" << x << ", " << y << ")" << std::endl;
     }
 }
+void Animal::moveTo(const Position position) {
+    this->moveTo(position.x, position.y);
+}
 
-void Animal::moveRandomly() {
+void Animal::makeMove() {
     const int worldWidth = this->getWorld()->getWidth();
     const int worldHeight = this->getWorld()->getHeight();
 
@@ -108,7 +113,9 @@ void Animal::moveRandomly() {
 
 void Animal::action() {
     if (!this->isAlive()) return;
-    moveRandomly();
+    /*this->getWorld()->addMessage("Zwierze typu " + this->getSpeciesName() +
+        " wykonuje akcje z inicjatywa " + std::to_string(this->getInitiative()) + " i wiekiem " + std::to_string(this->getAge()));*/
+    makeMove();
     checkForCollisions();
 
     if (this->getBreedCooldown() > 0) {
@@ -128,6 +135,10 @@ void Animal::checkForCollisions() {
 }
 
 void Animal::attack(Animal* other) {
+    if (other->defendAttack(this)) {
+        return;
+    }
+
     if (this->getStrength() >= other->getStrength()) {
         other->setAlive(false);
         this->getWorld()->addMessage("Zwierze typu " + this->getSpeciesName() + " pokonalo zwierze typu " +
@@ -145,10 +156,10 @@ void Animal::attack(Animal* other) {
 
 std::optional<std::pair<int, int>> Animal::getRandomFreePosition() const {
     const int directions[4][2] = {
-        {0, -1},  // góra
-        {0, 1},   // dół
-        {-1, 0},  // lewo
-        {1, 0}    // prawo
+        {0, -1},  // up
+        {0, 1},   // down
+        {-1, 0},  // left
+        {1, 0}    // right
     };
 
     std::vector<std::pair<int, int>> freePositions;
@@ -160,7 +171,7 @@ std::optional<std::pair<int, int>> Animal::getRandomFreePosition() const {
         if (newX >= 0 && newX < this->getWorld()->getWidth() &&
             newY >= 0 && newY < this->getWorld()->getHeight() &&
             this->getWorld()->isFieldEmpty(newX, newY)) {
-            freePositions.emplace_back(newX, newY);
+                freePositions.emplace_back(newX, newY);
         }
     }
 
@@ -181,9 +192,9 @@ void Animal::breed(Animal* other) {
     }
     const auto freePosition = this->getRandomFreePosition();
     if (freePosition == std::nullopt) {
-        this->getWorld()->addMessage("Zwierzeta typu " + this->getSpeciesName() +
+        /*this->getWorld()->addMessage("Zwierzeta typu " + this->getSpeciesName() +
             " nie znalazly miejsca do rozmnozenia na pozycji x=" + std::to_string(this->getPositionX() + 1) +
-            ", y=" + std::to_string(this->getPositionY() + 1));
+            ", y=" + std::to_string(this->getPositionY() + 1));*/
         return;
     }
 
@@ -214,5 +225,17 @@ void Animal::collision(Organism* other) {
             }
         }
     }
+}
+
+bool Animal::defendAttack(Organism* attacker) {
+    return false;
+}
+
+void Animal::setLastPosition(const Position position) {
+    this->lastPosition = position;
+}
+
+Position Animal::getLastPosition() const {
+    return this->lastPosition;
 }
 

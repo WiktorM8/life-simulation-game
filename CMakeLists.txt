@@ -11,4 +11,7 @@ add_executable(LifeSimulationGame main.cpp
         Organism/Animal/Animal.cpp
         Organism/Animal/Wolf.cpp
         Organism/Animal/Sheep.cpp
+        Organism/Animal/Fox.cpp
+        Organism/Animal/Turtle.cpp
+        Organism/Animal/Antelope.cpp
 )

@@ -24,16 +24,16 @@ enum AnimalSpecies {
 class Animal: public Organism {
 private:
     AnimalSpecies species;
-    void moveRandomly();
-    void moveTo(int x, int y);
+    Position lastPosition{};
 
     int breedCooldown;
 protected:
+    virtual void makeMove();
     void checkForCollisions();
-    void attack(Animal* other);
+    virtual void attack(Animal* other);
     void breed(Animal *other);
 public:
-    Animal(int x, int y, int strength, int initiative, AnimalSpecies species, World* world);
+    Animal(Position position, int strength, int initiative, AnimalSpecies species, World* world);
     ~Animal() override;
 
     void setSpecies(AnimalSpecies species);
@@ -45,11 +45,21 @@ public:
     [[nodiscard]] bool isReadyToBreed() const;
     [[nodiscard]] int getBreedCooldown() const;
     [[nodiscard]] std::optional<std::pair<int, int>> getRandomFreePosition() const;
+    void moveTo(int x, int y);
+    void moveTo(Position position);
 
     [[nodiscard]] virtual std::unique_ptr<Animal> makeChild() const = 0;
 
+    void setLastPosition(Position position);
+    [[nodiscard]] Position getLastPosition() const;
+
     void action() override;
     void collision(Organism* other) override;
+    /**
+    * Check if the animal can attack the other organism
+    * If true, then collision in this should not be called
+    */
+    bool defendAttack(Organism* attacker) override;
 };
 
 

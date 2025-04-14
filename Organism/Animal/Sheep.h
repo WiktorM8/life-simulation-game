@@ -9,7 +9,7 @@
 
 class Sheep final : public Animal {
 public:
-    Sheep(int x, int y, World* world);
+    Sheep(Position position, World *world);
     ~Sheep() override;
 
     [[nodiscard]] std::unique_ptr<Animal> makeChild() const override;

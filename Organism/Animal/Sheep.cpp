@@ -7,13 +7,13 @@
 #include <iostream>
 #include <windows.h>
 
-Sheep::Sheep(const int x, const int y, World* world)
-        : Animal(x, y, 4, 4, SHEEP, world) {}
+Sheep::Sheep(const Position position, World *world)
+        : Animal(position, 4, 4, SHEEP, world) {}
 
 Sheep::~Sheep() = default;
 
 std::unique_ptr<Animal> Sheep::makeChild() const {
-    const auto sheep = new Sheep(this->getPositionX(), this->getPositionY(), this->getWorld());
+    const auto sheep = new Sheep(this->getPosition(), this->getWorld());
     return std::unique_ptr<Animal>(sheep);
 }
 
