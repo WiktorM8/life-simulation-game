@@ -140,34 +140,7 @@ void Animal::attack(Animal* other) {
     }
 }
 
-std::optional<Position> Animal::getRandomFreePosition() const {
-    const int directions[4][2] = {
-        {0, -1},  // up
-        {0, 1},   // down
-        {-1, 0},  // left
-        {1, 0}    // right
-    };
 
-    std::vector<Position> freePositions;
-
-    for (const auto& dir : directions) {
-        int newX = this->getPositionX() + dir[0];
-        int newY = this->getPositionY() + dir[1];
-
-        if (newX >= 0 && newX < this->getWorld()->getWidth() &&
-            newY >= 0 && newY < this->getWorld()->getHeight() &&
-            this->getWorld()->isFieldEmpty(newX, newY)) {
-                freePositions.emplace_back(newX, newY);
-        }
-    }
-
-    if (!freePositions.empty()) {
-        const int randomIndex = std::rand() % freePositions.size();
-        return freePositions[randomIndex];
-    }
-
-    return std::nullopt;
-}
 
 void Animal::breed(Animal* other) {
     if (!this->isReadyToBreed() || !other->isReadyToBreed()) {
@@ -202,13 +175,17 @@ void Animal::breed(Animal* other) {
 }
 
 void Animal::collision(Organism* other) {
-    if (other->getType() == ANIMAL) {
-        if (const auto other_animal = dynamic_cast<Animal*>(other)) {
-            if (this->getSpecies() == other_animal->getSpecies()) {
-                breed(other_animal);
-            } else {
-                attack(other_animal);
-            }
+    if (other->getType() == PLANT) {
+        other->collision(this);
+        return;
+    }
+
+    // If other is not a plant, then it is an animal
+    if (const auto other_animal = dynamic_cast<Animal*>(other)) {
+        if (this->getSpecies() == other_animal->getSpecies()) {
+            breed(other_animal);
+        } else {
+            attack(other_animal);
         }
     }
 }

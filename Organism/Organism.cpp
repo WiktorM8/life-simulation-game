@@ -4,6 +4,8 @@
 
 #include "Organism.h"
 
+#include <optional>
+
 Organism::Organism(const Position position, const int strength, const int initiative,
                    const OrganismType type, World* world)
         : position(position), strength(strength), initiative(initiative), alive(true),
@@ -74,6 +76,33 @@ World* Organism::getWorld() const {
     return world;
 }
 
+std::optional<Position> Organism::getRandomFreePosition() const {
+    const int directions[4][2] = {
+        {0, -1},  // up
+        {0, 1},   // down
+        {-1, 0},  // left
+        {1, 0}    // right
+    };
 
+    std::vector<Position> freePositions;
+
+    for (const auto& dir : directions) {
+        int newX = this->getPositionX() + dir[0];
+        int newY = this->getPositionY() + dir[1];
+
+        if (newX >= 0 && newX < this->getWorld()->getWidth() &&
+            newY >= 0 && newY < this->getWorld()->getHeight() &&
+            this->getWorld()->isFieldEmpty(newX, newY)) {
+            freePositions.emplace_back(newX, newY);
+            }
+    }
+
+    if (!freePositions.empty()) {
+        const int randomIndex = std::rand() % freePositions.size();
+        return freePositions[randomIndex];
+    }
+
+    return std::nullopt;
+}
 
 

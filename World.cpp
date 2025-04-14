@@ -13,6 +13,8 @@
 #include "Organism/Animal/Sheep.h"
 #include "Organism/Animal/Turtle.h"
 #include "Organism/Animal/Wolf.h"
+#include "Organism/Plant/Dandelion.h"
+#include "Organism/Plant/Grass.h"
 
 World::World(const int width, const int height) : width(width), height(height) {}
 
@@ -75,6 +77,14 @@ void World::generateStartingOrganisms() {
     for (int i = 0; i < 4; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Antelope>(new_position, this));
+    }
+    for (int i = 0; i < 5; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Grass>(new_position, this));
+    }
+    for (int i = 0; i < 5; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Dandelion>(new_position, this));
     }
 }
 

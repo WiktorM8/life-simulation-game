@@ -39,7 +39,7 @@ bool Turtle::defendAttack(Organism* attacker) {
         return false;
     }
     if (attacker->getStrength() < 5) {
-        this->getWorld()->addMessage("Zwierze typu " + animal_attacker->getSpeciesName() + " nie moze zaatakowac zoltwia na pozycji x=" +
+        this->getWorld()->addMessage("Zwierze typu " + animal_attacker->getSpeciesName() + " nie moze zaatakowac zolwia na pozycji x=" +
                                      std::to_string(this->getPositionX() + 1) + ", y=" +
                                      std::to_string(this->getPositionY() + 1));
         animal_attacker->moveTo(animal_attacker->getLastPosition());

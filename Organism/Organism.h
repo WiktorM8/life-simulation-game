@@ -4,6 +4,8 @@
 
 #ifndef ORGANISM_H
 #define ORGANISM_H
+#include <optional>
+
 #include "../World.h"
 
 enum OrganismType {
@@ -52,13 +54,10 @@ public:
     [[nodiscard]] OrganismType getType() const;
     [[nodiscard]] World* getWorld() const;
 
+    [[nodiscard]] std::optional<Position> getRandomFreePosition() const;
+
     virtual void action() = 0;
     virtual void collision(Organism* other) = 0;
-    /**
-   * Check if the animal can attack the other organism
-   * If false, then collision in this should not be called
-   */
-    virtual bool defendAttack(Organism* attacker) = 0;
     virtual void draw() = 0;
 };
 

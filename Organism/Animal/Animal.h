@@ -44,7 +44,6 @@ public:
     void decrementBreedCooldown();
     [[nodiscard]] bool isReadyToBreed() const;
     [[nodiscard]] int getBreedCooldown() const;
-    [[nodiscard]] std::optional<Position> getRandomFreePosition() const;
     void moveTo(int x, int y);
     void moveTo(Position position);
 
@@ -59,7 +58,7 @@ public:
     * Check if the animal can attack the other organism
     * If true, then collision in this should not be called
     */
-    bool defendAttack(Organism* attacker) override;
+    virtual bool defendAttack(Organism* attacker);
 };
 
 
