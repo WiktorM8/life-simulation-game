@@ -17,4 +17,5 @@ add_executable(LifeSimulationGame main.cpp
         Organism/Plant/Plant.cpp
         Organism/Plant/Grass.cpp
         Organism/Plant/Dandelion.cpp
+        Organism/Plant/Guarana.cpp
 )

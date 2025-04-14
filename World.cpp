@@ -15,6 +15,7 @@
 #include "Organism/Animal/Wolf.h"
 #include "Organism/Plant/Dandelion.h"
 #include "Organism/Plant/Grass.h"
+#include "Organism/Plant/Guarana.h"
 
 World::World(const int width, const int height) : width(width), height(height) {}
 
@@ -58,33 +59,38 @@ void World::sortOrganisms() {
 }
 
 void World::generateStartingOrganisms() {
-    for (int i = 0; i < 3; ++i) {
+    int size = width * height;
+    for (int i = 0; i < size / 80; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Wolf>(new_position, this));
     }
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < size / 67; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Sheep>(new_position, this));
     }
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < size / 100; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Fox>(new_position, this));
     }
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < size / 80; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Turtle>(new_position, this));
     }
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < size / 100; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Antelope>(new_position, this));
     }
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < size / 15; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Grass>(new_position, this));
     }
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < size / 160; ++i) {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Dandelion>(new_position, this));
+    }
+    for (int i = 0; i < size / 80; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<Guarana>(new_position, this));
     }
 }
 
