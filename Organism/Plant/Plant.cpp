@@ -28,8 +28,8 @@ std::string Plant::getSpeciesName() const {
             return "Dandelion";
         case GUARANA:
             return "Guarana";
-        case WOLF_BERRY:
-            return "Wolf Berry";
+        case NIGHTSHADE_BERRY:
+            return "Nightshade Berry";
         case SOSNOWSKY_HOGWEED:
             return "Sosnowsky Hogweed";
         default:

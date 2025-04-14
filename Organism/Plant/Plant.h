@@ -10,7 +10,7 @@ enum PlantSpecies {
     GRASS,
     DANDELION,
     GUARANA,
-    WOLF_BERRY,
+    NIGHTSHADE_BERRY,
     SOSNOWSKY_HOGWEED
 };
 

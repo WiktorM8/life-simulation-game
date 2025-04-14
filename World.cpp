@@ -16,6 +16,8 @@
 #include "Organism/Plant/Dandelion.h"
 #include "Organism/Plant/Grass.h"
 #include "Organism/Plant/Guarana.h"
+#include "Organism/Plant/NightshadeBerry.h"
+#include "Organism/Plant/SosnowskyHogweed.h"
 
 World::World(const int width, const int height) : width(width), height(height) {}
 
@@ -92,6 +94,14 @@ void World::generateStartingOrganisms() {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<Guarana>(new_position, this));
     }
+    for (int i = 0; i < size / 120; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<NightshadeBerry>(new_position, this));
+    }
+    for (int i = 0; i < size / 200; ++i) {
+        Position new_position = {std::rand() % width, std::rand() % height};
+        addOrganism(std::make_unique<SosnowskyHogweed>(new_position, this));
+    }
 }
 
 const std::vector<std::unique_ptr<Organism> > &World::getOrganisms() const {
@@ -140,7 +150,7 @@ void World::draw() {
         }
         std::cout << std::endl;
     }
-    displayMessages();
+    //displayMessages();
     clearMessages();
 }
 
