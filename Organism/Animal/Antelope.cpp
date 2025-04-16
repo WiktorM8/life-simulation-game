@@ -51,10 +51,13 @@ void Antelope::collision(Organism* other) {
 }
 
 bool Antelope::defendAttack(Organism* attacker) {
+    if (attacker->getType() == PLANT) {
+        return false;
+    }
+
     const auto animal_attacker = dynamic_cast<Animal*>(attacker);
     if (animal_attacker == nullptr) {
-        this->getWorld()->addMessage("Not an animal");
-        return false;
+        return true;
     }
     if (attacker->getStrength() > this->getStrength()) {
         const int escape_chance = std::rand() % 2;

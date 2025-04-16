@@ -23,17 +23,17 @@ PlantSpecies Plant::getSpecies() const {
 std::string Plant::getSpeciesName() const {
     switch (species) {
         case GRASS:
-            return "Grass";
+            return "Trawa";
         case DANDELION:
-            return "Dandelion";
+            return "Mlecz";
         case GUARANA:
             return "Guarana";
         case NIGHTSHADE_BERRY:
-            return "Nightshade Berry";
+            return "Wilcza jagoda";
         case SOSNOWSKY_HOGWEED:
-            return "Sosnowsky Hogweed";
+            return "Barszcz Sosnowskiego";
         default:
-            return "Unknown species";
+            return "Nieznany gatunek rosliny";
     }
 }
 

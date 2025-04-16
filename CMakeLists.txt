@@ -20,4 +20,5 @@ add_executable(LifeSimulationGame main.cpp
         Organism/Plant/Guarana.cpp
         Organism/Plant/NightshadeBerry.cpp
         Organism/Plant/SosnowskyHogweed.cpp
+        Organism/Animal/Human.cpp
 )

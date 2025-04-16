@@ -8,9 +8,12 @@
 #include <vector>
 #include <string>
 
+#include "GameManager.h"
 #include "Organism/Organism.h"
 
 class Organism;
+class GameManager;
+class Human;
 
 class World {
 private:
@@ -20,10 +23,14 @@ private:
     std::vector<std::unique_ptr<Organism>> organisms;
     std::vector<std::unique_ptr<Organism>> new_organisms;
     std::vector<std::string> world_messages;
+    GameManager* game_manager;
     void mergeNewOrganisms();
 public:
-    World(int width, int height);
+    World(int width, int height, GameManager* game_manager);
     ~World();
+
+    void setGameManager(GameManager* game_manager);
+    [[nodiscard]] GameManager* getGameManager() const;
 
     void setWidth(int width);
     void setHeight(int height);
@@ -35,6 +42,7 @@ public:
     void generateStartingOrganisms();
     [[nodiscard]] const std::vector<std::unique_ptr<Organism>>& getOrganisms() const;
     [[nodiscard]] bool isFieldEmpty(int x, int y) const;
+    [[nodiscard]] Human* getPlayer() const;
 
     void removeDeadOrganisms();
     void makeTurn();

@@ -28,7 +28,9 @@ void SosnowskyHogweed::collision(Organism* other) {
     if (other->getType() == ANIMAL) {
         const auto animal = dynamic_cast<Animal*>(other);
         if (animal != nullptr) {
-            animal->setAlive(false);
+            if (!animal->defendAttack(this)) {
+                animal->setAlive(false);
+            }
             this->setAlive(false);
             /*this->getWorld()->addMessage("Zwierze typu " + animal->getSpeciesName() +
                                          " zjadlo barszcz Sosnowskiego, umiera na pozycji x=" + std::to_string(this->getPositionX() + 1) +
@@ -37,7 +39,7 @@ void SosnowskyHogweed::collision(Organism* other) {
     }
 }
 
-void SosnowskyHogweed::killNearbyAnimals() const {
+void SosnowskyHogweed::killNearbyAnimals() {
     for (auto& organism : this->getWorld()->getOrganisms()) {
         if (organism->getType() == ANIMAL) {
             const auto animal = dynamic_cast<Animal*>(organism.get());
@@ -46,7 +48,9 @@ void SosnowskyHogweed::killNearbyAnimals() const {
                     animal->getPosition().x <= this->getPositionX() + 1 &&
                     animal->getPosition().y >= this->getPositionY() - 1 &&
                     animal->getPosition().y <= this->getPositionY() + 1 ) {
+                    if (!animal->defendAttack(this)) {
                         animal->setAlive(false);
+                    }
                 }
             }
         }

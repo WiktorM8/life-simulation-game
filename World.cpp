@@ -10,6 +10,7 @@
 
 #include "Organism/Animal/Antelope.h"
 #include "Organism/Animal/Fox.h"
+#include "Organism/Animal/Human.h"
 #include "Organism/Animal/Sheep.h"
 #include "Organism/Animal/Turtle.h"
 #include "Organism/Animal/Wolf.h"
@@ -19,13 +20,29 @@
 #include "Organism/Plant/NightshadeBerry.h"
 #include "Organism/Plant/SosnowskyHogweed.h"
 
-World::World(const int width, const int height) : width(width), height(height) {}
+World::World(const int width, const int height, GameManager* game_manager)
+    : width(width), height(height), game_manager(game_manager) {}
 
 World::~World() = default;
 
 /**
  * Setters and Getters
  */
+void World::setGameManager(GameManager* game_manager) {
+    this->game_manager = game_manager;
+}
+GameManager* World::getGameManager() const {
+    return game_manager;
+}
+Human* World::getPlayer() const {
+    for (const auto& organism : organisms) {
+        if (const auto human = dynamic_cast<Human*>(organism.get())) {
+            return human;
+        }
+    }
+    return nullptr;
+}
+
 void World::setWidth(const int width) {
     this->width = width;
 }
@@ -102,6 +119,9 @@ void World::generateStartingOrganisms() {
         Position new_position = {std::rand() % width, std::rand() % height};
         addOrganism(std::make_unique<SosnowskyHogweed>(new_position, this));
     }
+
+    Position new_position = {std::rand() % width, std::rand() % height};
+    addOrganism(std::make_unique<Human>(new_position, this));
 }
 
 const std::vector<std::unique_ptr<Organism> > &World::getOrganisms() const {
@@ -133,6 +153,7 @@ void World::makeTurn() {
 
 void World::draw() {
     system("cls");
+    this->getGameManager()->printPlayerDirection();
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             bool empty = true;
@@ -150,7 +171,7 @@ void World::draw() {
         }
         std::cout << std::endl;
     }
-    //displayMessages();
+    displayMessages();
     clearMessages();
 }
 

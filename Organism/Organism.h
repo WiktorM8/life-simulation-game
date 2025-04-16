@@ -40,7 +40,7 @@ public:
     void incrementAge();
     void setStrength(int strength);
     void setInitiative(int initiative);
-    void setAlive(bool alive);
+    virtual void setAlive(bool alive);
     void setType(OrganismType type);
     void setWorld(World* world);
 

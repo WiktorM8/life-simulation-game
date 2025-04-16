@@ -26,19 +26,19 @@ AnimalSpecies Animal::getSpecies() const {
 std::string Animal::getSpeciesName() const {
     switch (species) {
         case WOLF:
-            return "Wolf";
+            return "Wilk";
         case SHEEP:
-            return "Sheep";
+            return "Owca";
         case FOX:
-            return "Fox";
+            return "Lis";
         case TURTLE:
-            return "Turtle";
+            return "Zolw";
         case ANTELOPE:
-            return "Antelope";
+            return "Antylopa";
         case HUMAN:
-            return "Human";
+            return "Czlowiek";
         default:
-            return "Unknown species";
+            return "Nieznany gatunek zwierzecia";
     }
 }
 
@@ -62,7 +62,7 @@ void Animal::moveTo(const int x, const int y) {
         this->setPositionX(x);
         this->setPositionY(y);
     } else {
-        std::cerr << "Invalid move to (" << x << ", " << y << ")" << std::endl;
+        std::cerr << "Nieprawidlowy ruch (" << x << ", " << y << ")" << std::endl;
     }
 }
 void Animal::moveTo(const Position position) {
@@ -144,6 +144,7 @@ void Animal::attack(Animal* other) {
 
 void Animal::breed(Animal* other) {
     if (!this->isReadyToBreed() || !other->isReadyToBreed()) {
+        this->moveTo(this->getLastPosition());
         /*this->getWorld()->addMessage("Zwierzeta typu " + this->getSpeciesName() +
             " nie sa gotowe do rozmnozenia na pozycji x=" + std::to_string(this->getPositionX() + 1) +
             ", y=" + std::to_string(this->getPositionY() + 1));*/

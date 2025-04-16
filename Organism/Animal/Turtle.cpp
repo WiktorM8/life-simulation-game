@@ -33,10 +33,13 @@ void Turtle::attack(Animal* other) {
 }
 
 bool Turtle::defendAttack(Organism* attacker) {
+    if (attacker->getType() == PLANT) {
+        return false;
+    }
+
     const auto animal_attacker = dynamic_cast<Animal*>(attacker);
     if (animal_attacker == nullptr) {
-        this->getWorld()->addMessage("Not an animal");
-        return false;
+        return true;
     }
     if (attacker->getStrength() < 5) {
         this->getWorld()->addMessage("Zwierze typu " + animal_attacker->getSpeciesName() + " nie moze zaatakowac zolwia na pozycji x=" +

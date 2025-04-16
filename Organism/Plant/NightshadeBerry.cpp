@@ -27,11 +27,13 @@ void NightshadeBerry::collision(Organism* other) {
     if (other->getType() == ANIMAL) {
         const auto animal = dynamic_cast<Animal*>(other);
         if (animal != nullptr) {
-            animal->setAlive(false);
-            this->setAlive(false);
-            this->getWorld()->addMessage("Zwierze typu " + animal->getSpeciesName() +
+            if (!animal->defendAttack(this)) {
+                animal->setAlive(false);
+                this->getWorld()->addMessage("Zwierze typu " + animal->getSpeciesName() +
                                          " zjadlo wilcza jagode, umiera na pozycji x=" + std::to_string(this->getPositionX() + 1) +
                                          ", y=" + std::to_string(this->getPositionY() + 1));
+            }
+            this->setAlive(false);
         }
     }
 }

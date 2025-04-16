@@ -9,7 +9,7 @@
 
 class SosnowskyHogweed final : public Plant {
 private:
-    void killNearbyAnimals() const;
+    void killNearbyAnimals();
 public:
     SosnowskyHogweed(Position position, World *world);
     ~SosnowskyHogweed() override;
