@@ -62,6 +62,7 @@ void SosnowskyHogweed::action() {
 
     this->killNearbyAnimals();
     this->spread();
+    incrementAge();
 }
 
 

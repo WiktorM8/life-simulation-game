@@ -16,6 +16,7 @@ class GameManager;
 class Human;
 
 class World {
+    friend class GameManager;
 private:
     int width;
     int height;
@@ -31,6 +32,7 @@ public:
 
     void setGameManager(GameManager* game_manager);
     [[nodiscard]] GameManager* getGameManager() const;
+    void clearWorld();
 
     void setWidth(int width);
     void setHeight(int height);
@@ -51,6 +53,9 @@ public:
     void addMessage(const std::string& message);
     void clearMessages();
     void displayMessages() const;
+
+    void saveToFile(std::ofstream &file) const;
+    void loadFromFile(std::ifstream &file);
 };
 
 

@@ -22,6 +22,7 @@ void Dandelion::action() {
     this->spread();
     this->spread();
     this->spread();
+    incrementAge();
 }
 
 void Dandelion::draw() {

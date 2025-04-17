@@ -72,6 +72,21 @@ bool Organism::isAlive() const {
 OrganismType Organism::getType() const {
     return type;
 }
+std::string Organism::getTypeName() const {
+    switch (type) {
+        case ANIMAL:
+            return "Zwierze";
+        case PLANT:
+            return "Roslina";
+        default:
+            return "Nieznany typ organizmu";
+    }
+}
+OrganismType Organism::getTypeFromName(const std::string& name) {
+    if (name == "Zwierze") return ANIMAL;
+    if (name == "Roslina") return PLANT;
+    return ANIMAL;
+}
 World* Organism::getWorld() const {
     return world;
 }

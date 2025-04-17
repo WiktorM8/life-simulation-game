@@ -5,12 +5,14 @@
 #include "GameManager.h"
 
 #include <iostream>
+#include <filesystem>
 
 #include "World.h"
 
 GameManager::GameManager() = default;
 
 World* GameManager::createWorld() {
+    system("cls");
     int width, height;
     std::cout << "Podaj szerokosc swiata: ";
     std::cin >> width;
@@ -19,7 +21,52 @@ World* GameManager::createWorld() {
     std::cout << "Swiat stworzony z wymiarami x=" << width << " y=" << height << std::endl;
     std::cout << "Nacisnij dowolny przycisk aby zaczac gre..." << std::endl;
 
-    return new World(width, height, this);
+    const auto world = new World(width, height, this);
+    this->world = world;
+    world->generateStartingOrganisms();
+    world->mergeNewOrganisms();
+    world->draw();
+    return world;
+}
+
+World* GameManager::loadWorld(const std::string& exe_path, World* world) {
+    system("cls");
+    std::string filename;
+    const std::string directory = "./saves/";
+    const std::filesystem::path exePath = std::filesystem::path(exe_path).parent_path();
+    current_path(exePath);
+
+    std::cout << "Podaj nazwe pliku do wczytania swiata: ";
+    std::cin >> filename;
+    filename = directory + filename + ".wdata";
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cout << "Nie mozna otworzyc pliku do wczytania!" << std::endl;
+        std::cout << "Nacisnij dowolny przycisk aby kontynuowac..." << std::endl;
+        system("pause");
+        return world;
+    }
+
+    this->deleteWorld();
+    this->world = new World(0, 0, this);
+    this->world->loadFromFile(file);
+    file.close();
+    this->world->mergeNewOrganisms();
+    std::cout << "Swiat zostal wczytany!" << std::endl;
+    std::cout << "Nacisnij dowolny przycisk aby kontynuowac..." << std::endl;
+    system("pause");
+    this->world->draw();
+    return this->world;
+}
+
+void GameManager::deleteWorld() {
+    if (this->getWorld() == nullptr) {
+        std::cout << "Nie ma swiata do usuniecia!" << std::endl;
+        return;
+    }
+    this->getWorld()->clearWorld();
+    delete this->world;
+    this->world = nullptr;
 }
 
 void GameManager::setPlayerDirection(const PlayerDirection direction) {
@@ -35,6 +82,14 @@ void GameManager::setPlayerAlive(const bool alive) {
 
 bool GameManager::isPlayerAlive() const {
     return playerAlive;
+}
+
+void GameManager::setWorld(World* world) {
+    this->world = world;
+}
+
+World* GameManager::getWorld() const {
+    return this->world;
 }
 
 void GameManager::printPlayerDirection() const {
@@ -63,3 +118,32 @@ void GameManager::printPlayerDirection() const {
     }
     std::cout << text << std::endl;
 }
+
+void GameManager::saveWorldToFile(const std::string& exe_path) const {
+    system("cls");
+    std::string filename;
+    const std::string directory = "./saves/";
+    const std::filesystem::path exePath = std::filesystem::path(exe_path).parent_path();
+    current_path(exePath);
+    std::filesystem::create_directories(directory);
+
+    std ::cout << "Podaj nazwe pliku do zapisu swiata: ";
+    std::cin >> filename;
+    filename = directory + filename + ".wdata";
+    std::ofstream file(filename, std::ios::out | std::ios::trunc);
+
+    std::cout << "Zapisuje swiat do pliku: " << filename << std::endl;
+    if (!file.is_open()) {
+        std::cout << "Nie mozna otworzyc pliku do zapisu!" << std::endl;
+        std::cout << "Nacisnij dowolny przycisk aby kontynuowac..." << std::endl;
+        system("pause");
+        return;
+    }
+
+    this->getWorld()->saveToFile(file);
+    std::cout << "Swiat zostal zapisany!" << std::endl;
+    std::cout << "Nacisnij dowolny przycisk aby kontynuowac..." << std::endl;
+    system("pause");
+    file.close();
+}
+

@@ -34,6 +34,14 @@ void World::setGameManager(GameManager* game_manager) {
 GameManager* World::getGameManager() const {
     return game_manager;
 }
+
+void World::clearWorld() {
+    organisms.clear();
+    new_organisms.clear();
+    world_messages.clear();
+    game_manager = nullptr;
+}
+
 Human* World::getPlayer() const {
     for (const auto& organism : organisms) {
         if (const auto human = dynamic_cast<Human*>(organism.get())) {
@@ -200,3 +208,100 @@ void World::displayMessages() const {
         std::cout << i++ << ". " << message << std::endl;
     }
 }
+
+void World::saveToFile(std::ofstream &file) const {
+    file << width << " " << height << std::endl;
+    for (const auto& organism : organisms) {
+        if (organism->isAlive()) {
+            organism->saveToFile(file);
+        }
+    }
+}
+
+void World::loadFromFile(std::ifstream &file) {
+    int width, height;
+    file >> width >> height;
+    this->setWidth(width);
+    this->setHeight(height);
+
+    while (!file.eof()) {
+        std::string typeName;
+        file >> typeName;
+        const OrganismType type = Organism::getTypeFromName(typeName);
+        if (type == ANIMAL) {
+            std::string speciesName;
+            file >> speciesName;
+            const AnimalSpecies species = Animal::getSpeciesFromName(speciesName);
+            Position position, lastPosition;
+            file >> position.x >> position.y;
+            file >> lastPosition.x >> lastPosition.y;
+            int strength, initiative, age, breedCooldown;
+            file >> strength >> initiative >> age >> breedCooldown;
+            Animal *animal = nullptr;
+
+            if (species == WOLF) {
+                animal = new Wolf(position, this);
+            } else if (species == SHEEP) {
+                animal = new Sheep(position, this);
+            } else if (species == FOX) {
+                animal = new Fox(position, this);
+            } else if (species == TURTLE) {
+                animal = new Turtle(position, this);
+            } else if (species == ANTELOPE) {
+                animal = new Antelope(position, this);
+            } else if (species == HUMAN) {
+                auto *human = new Human(position, this);
+                bool isAbilityActive;
+                int abilityExpirationTime, abilityCooldown;
+                file >> isAbilityActive >> abilityExpirationTime >> abilityCooldown;
+                human->setAbilityActive(isAbilityActive);
+                human->setAbilityExpirationTime(abilityExpirationTime);
+                human->setAbilityCooldown(abilityCooldown);
+                animal = human;
+            }
+
+            if (animal == nullptr) {
+                continue;
+            }
+
+            animal->setLastPosition(lastPosition);
+            animal->setStrength(strength);
+            animal->setInitiative(initiative);
+            animal->setAge(age);
+            animal->setBreedCooldown(breedCooldown);
+            addOrganism(std::unique_ptr<Organism>(animal));
+
+        } else if (type == PLANT) {
+            std::string speciesName;
+            file >> speciesName;
+            const PlantSpecies species = Plant::getSpeciesFromName(speciesName);
+            Position position;
+            file >> position.x >> position.y;
+            int strength, initiative, age;
+            file >> strength >> initiative >> age;
+            Organism *organism = nullptr;
+
+            if (species == GRASS) {
+                organism = new Grass(position, this);
+            } else if (species == DANDELION) {
+                organism = new Dandelion(position, this);
+            } else if (species == GUARANA) {
+                organism = new Guarana(position, this);
+            } else if (species == NIGHTSHADE_BERRY) {
+                organism = new NightshadeBerry(position, this);
+            } else if (species == SOSNOWSKY_HOGWEED) {
+                organism = new SosnowskyHogweed(position, this);
+            }
+
+            if (organism == nullptr) {
+                continue;
+            }
+
+            organism->setStrength(strength);
+            organism->setInitiative(initiative);
+            organism->setAge(age);
+            addOrganism(std::unique_ptr<Organism>(organism));
+        }
+    }
+}
+

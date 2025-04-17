@@ -5,12 +5,11 @@
 #ifndef ANIMAL_H
 #define ANIMAL_H
 
-#include <optional>
 #include <string>
 
 #include "../Organism.h"
 
-#define BREED_COOLDOWN 3
+#define BREED_COOLDOWN 5
 
 enum AnimalSpecies {
     WOLF,
@@ -39,6 +38,7 @@ public:
     void setSpecies(AnimalSpecies species);
     [[nodiscard]] AnimalSpecies getSpecies() const;
     [[nodiscard]] std::string getSpeciesName() const;
+    [[nodiscard]] static AnimalSpecies getSpeciesFromName(const std::string& name);
 
     void setBreedCooldown(int cooldown);
     void decrementBreedCooldown();
@@ -59,6 +59,8 @@ public:
     * If true, then collision in this should not be called
     */
     virtual bool defendAttack(Organism* attacker);
+
+    void saveToFile(std::ofstream &file) const override;
 };
 
 

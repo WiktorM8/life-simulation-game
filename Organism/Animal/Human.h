@@ -36,6 +36,8 @@ public:
 
     void setAbilityActive(bool active);
     [[nodiscard]] bool isAbilityActive() const;
+
+    void saveToFile(std::ofstream &file) const override;
 };
 
 

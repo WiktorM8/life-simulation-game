@@ -29,18 +29,28 @@ std::string Plant::getSpeciesName() const {
         case GUARANA:
             return "Guarana";
         case NIGHTSHADE_BERRY:
-            return "Wilcza jagoda";
+            return "Wilcza_jagoda";
         case SOSNOWSKY_HOGWEED:
-            return "Barszcz Sosnowskiego";
+            return "Barszcz_Sosnowskiego";
         default:
-            return "Nieznany gatunek rosliny";
+            return "Nieznany_gatunek_rosliny";
     }
+}
+
+PlantSpecies Plant::getSpeciesFromName(const std::string& name) {
+    if (name == "Trawa") return GRASS;
+    if (name == "Mlecz") return DANDELION;
+    if (name == "Guarana") return GUARANA;
+    if (name == "Wilcza_jagoda") return NIGHTSHADE_BERRY;
+    if (name == "Barszcz_Sosnowskiego") return SOSNOWSKY_HOGWEED;
+    return GRASS;
 }
 
 void Plant::action() {
     if (!this->isAlive()) return;
 
     this->spread();
+    incrementAge();
 }
 
 void Plant::spread() const {
@@ -68,6 +78,11 @@ void Plant::collision(Organism* other) {
     if (other->getType() == ANIMAL) {
         this->setAlive(false);
     }
+}
+
+void Plant::saveToFile(std::ofstream& file) const {
+    file << this->getTypeName() << " " << this->getSpeciesName() << " " << this->getPositionX() << " " << this->getPositionY() << " "
+    << this->getStrength() << " " << this->getInitiative() << " " << this->getAge() << std::endl;
 }
 
 

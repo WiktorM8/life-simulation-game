@@ -26,11 +26,14 @@ public:
     void setSpecies(PlantSpecies species);
     [[nodiscard]] PlantSpecies getSpecies() const;
     [[nodiscard]] std::string getSpeciesName() const;
+    [[nodiscard]] static PlantSpecies getSpeciesFromName(const std::string& name);
 
     [[nodiscard]] virtual std::unique_ptr<Plant> makeChild() const = 0;
 
     void action() override;
     void collision(Organism* other) override;
+
+    void saveToFile(std::ofstream &file) const override;
 };
 
 

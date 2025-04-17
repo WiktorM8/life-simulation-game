@@ -3,7 +3,6 @@
 //
 
 #include "Animal.h"
-
 #include <iostream>
 #include <optional>
 
@@ -38,8 +37,18 @@ std::string Animal::getSpeciesName() const {
         case HUMAN:
             return "Czlowiek";
         default:
-            return "Nieznany gatunek zwierzecia";
+            return "Nieznany_gatunek_zwierzecia";
     }
+}
+
+AnimalSpecies Animal::getSpeciesFromName(const std::string& name) {
+    if (name == "Wilk") return WOLF;
+    if (name == "Owca") return SHEEP;
+    if (name == "Lis") return FOX;
+    if (name == "Zolw") return TURTLE;
+    if (name == "Antylopa") return ANTELOPE;
+    if (name == "Czlowiek") return HUMAN;
+    return WOLF;
 }
 
 void Animal::setBreedCooldown(const int cooldown) {
@@ -103,6 +112,7 @@ void Animal::action() {
         " wykonuje akcje z inicjatywa " + std::to_string(this->getInitiative()) + " i wiekiem " + std::to_string(this->getAge()));*/
     makeMove();
     checkForCollisions();
+    incrementAge();
 
     if (this->getBreedCooldown() > 0) {
         decrementBreedCooldown();
@@ -203,3 +213,10 @@ Position Animal::getLastPosition() const {
     return this->lastPosition;
 }
 
+void Animal::saveToFile(std::ofstream& file) const {
+    file << this->getTypeName() << " " << this->getSpeciesName() << " " << this->getPositionX() << " " << this->getPositionY() << " "
+        << this->getLastPosition().x << " " << this->getLastPosition().y << " "
+        << this->getStrength() << " " << this->getInitiative() << " " << this->getAge() << " "
+        << this->getBreedCooldown() << " "
+        << std::endl;
+}

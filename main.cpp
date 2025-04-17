@@ -13,13 +13,11 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
-int main() {
+int main(int argc, char* argv[]) {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     const std::unique_ptr<GameManager> game_manager(new GameManager());
-    const std::unique_ptr<World> world(game_manager->createWorld());
-
-    world->generateStartingOrganisms();
+    World* world = game_manager->createWorld();
 
     while (const int key = getch()) {
         if (key == 27) { // ESC key
@@ -30,24 +28,30 @@ int main() {
             case 't':
                 world->makeTurn();
                 break;
-            case 'w':
             case KEY_UP:
                 game_manager->setPlayerDirection(UP);
                 break;
-            case 's':
             case KEY_DOWN:
                 game_manager->setPlayerDirection(DOWN);
                 break;
-            case 'a':
             case KEY_LEFT:
                 game_manager->setPlayerDirection(LEFT);
                 break;
-            case 'd':
             case KEY_RIGHT:
                 game_manager->setPlayerDirection(RIGHT);
                 break;
             case 'p':
                 world->getPlayer()->activateAbility();
+                break;
+            case 's':
+                game_manager->saveWorldToFile(argv[0]);
+                break;
+            case 'n':
+                game_manager->deleteWorld();
+                world = game_manager->createWorld();
+                break;
+            case 'l':
+                world = game_manager->loadWorld(argv[0], world);
                 break;
             default:
                 break;

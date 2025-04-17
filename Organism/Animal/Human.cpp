@@ -13,6 +13,7 @@ Human::Human(const Position position, World *world)
     this->abilityActive = false;
     this->abilityCooldown = 0;
     this->abilityExpirationTime = 0;
+    world->getGameManager()->setPlayerAlive(true);
 }
 
 Human::~Human() = default;
@@ -64,6 +65,7 @@ void Human::action() {
 
     makeMove();
     checkForCollisions();
+    incrementAge();
 
     if (this->getAbilityCooldown() > 0) {
         this->setAbilityCooldown(this->getAbilityCooldown() - 1);
@@ -153,4 +155,13 @@ void Human::setAbilityActive(const bool active) {
 }
 bool Human::isAbilityActive() const {
     return this->abilityActive;
+}
+
+void Human::saveToFile(std::ofstream& file) const {
+    file << this->getTypeName() << " " << this->getSpeciesName() << " " << this->getPositionX() << " " << this->getPositionY() << " "
+        << this->getLastPosition().x << " " << this->getLastPosition().y << " "
+        << this->getStrength() << " " << this->getInitiative() << " " << this->getAge() << " "
+        << this->getBreedCooldown() << " " << this->isAbilityActive() << " "
+        << this->getAbilityExpirationTime() << " " << this->getAbilityCooldown() << " "
+        << std::endl;
 }

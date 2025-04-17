@@ -5,6 +5,8 @@
 #ifndef ORGANISM_H
 #define ORGANISM_H
 #include <optional>
+#include <string>
+#include <fstream>
 
 #include "../World.h"
 
@@ -52,6 +54,8 @@ public:
     [[nodiscard]] int getInitiative() const;
     [[nodiscard]] bool isAlive() const;
     [[nodiscard]] OrganismType getType() const;
+    [[nodiscard]] std::string getTypeName() const;
+    [[nodiscard]] static OrganismType getTypeFromName(const std::string& name);
     [[nodiscard]] World* getWorld() const;
 
     [[nodiscard]] std::optional<Position> getRandomFreePosition() const;
@@ -59,6 +63,8 @@ public:
     virtual void action() = 0;
     virtual void collision(Organism* other) = 0;
     virtual void draw() = 0;
+
+    virtual void saveToFile(std::ofstream& file) const = 0;
 };
 
 
