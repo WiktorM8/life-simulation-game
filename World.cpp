@@ -161,6 +161,7 @@ void World::makeTurn() {
 
 void World::draw() {
     system("cls");
+    std::cout << "t) nowa tura, n) nowa gra, l) zaladuj gre, p) aktywuj moc czlowieka, strzalki) sterowanie czlowiekiem, esc) wyjscie" << std::endl;
     this->getGameManager()->printPlayerDirection();
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {

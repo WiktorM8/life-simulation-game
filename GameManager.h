@@ -19,16 +19,18 @@ class World;
 class GameManager {
 private:
     PlayerDirection playerDirection = UP;
-    bool playerAlive = true;
+    bool playerAlive = false;
     World *world = nullptr;
 public:
     GameManager();
-    ~GameManager() = default;
+    ~GameManager();
+
+    void displayMenu() const;
 
     World* createWorld();
     void deleteWorld();
     void saveWorldToFile(const std::string& exe_path) const;
-    World* loadWorld(const std::string& exe_path, World* world);
+    World* loadWorld(const std::string& exe_path);
 
     void setPlayerDirection(PlayerDirection direction);
     [[nodiscard]] PlayerDirection getPlayerDirection() const;

@@ -11,6 +11,20 @@
 
 GameManager::GameManager() = default;
 
+GameManager::~GameManager() {
+    if (this->world != nullptr) {
+        this->deleteWorld();
+    }
+}
+
+void GameManager::displayMenu() const {
+    std::cout << "Life simulation" << std::endl;
+    std::cout << "n) nowa gra" << std::endl;
+    std::cout << "l) wczytaj gre" << std::endl;
+    std::cout << "esc) wyjdz z gry" << std::endl;
+}
+
+
 World* GameManager::createWorld() {
     system("cls");
     int width, height;
@@ -29,7 +43,7 @@ World* GameManager::createWorld() {
     return world;
 }
 
-World* GameManager::loadWorld(const std::string& exe_path, World* world) {
+World* GameManager::loadWorld(const std::string& exe_path) {
     system("cls");
     std::string filename;
     const std::string directory = "./saves/";
@@ -44,10 +58,9 @@ World* GameManager::loadWorld(const std::string& exe_path, World* world) {
         std::cout << "Nie mozna otworzyc pliku do wczytania!" << std::endl;
         std::cout << "Nacisnij dowolny przycisk aby kontynuowac..." << std::endl;
         system("pause");
-        return world;
+        return this->world;
     }
-
-    this->deleteWorld();
+    if (this->world != nullptr) this->deleteWorld();
     this->world = new World(0, 0, this);
     this->world->loadFromFile(file);
     file.close();
@@ -65,6 +78,7 @@ void GameManager::deleteWorld() {
         return;
     }
     this->getWorld()->clearWorld();
+    this->playerAlive = false;
     delete this->world;
     this->world = nullptr;
 }

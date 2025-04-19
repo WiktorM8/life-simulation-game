@@ -26,6 +26,8 @@ private:
     std::vector<std::string> world_messages;
     GameManager* game_manager;
     void mergeNewOrganisms();
+    void loadAnimal(std::ifstream &file);
+    void loadPlant(std::ifstream &file);
 public:
     World(int width, int height, GameManager* game_manager);
     ~World();

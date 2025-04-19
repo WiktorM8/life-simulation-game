@@ -124,8 +124,12 @@ void Human::activateAbility() {
         this->setAbilityActive(true);
         this->setAbilityExpirationTime(ABILITY_EXPIRATION_TIME);
         this->getWorld()->addMessage("Umiejetnosc czlowieka zostala aktywowana");
+    } else if (this->isAbilityActive()) {
+        this->getWorld()->addMessage("Umiejetnosc czlowieka jest aktywna, pozostalo: " +
+                                            std::to_string(this->getAbilityExpirationTime()) + " tur");
     } else {
-        this->getWorld()->addMessage("Umiejetnosc czlowieka jest w trakcie odnowienia");
+        this->getWorld()->addMessage("Umiejetnosc czlowieka jest w trakcie odnowienia, pozostalo: " +
+                                     std::to_string(this->getAbilityCooldown()) + " tur");
     }
 }
 

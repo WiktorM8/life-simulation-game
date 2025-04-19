@@ -17,7 +17,19 @@ int main(int argc, char* argv[]) {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     const std::unique_ptr<GameManager> game_manager(new GameManager());
-    World* world = game_manager->createWorld();
+    game_manager->displayMenu();
+    while (const int key = getch()) {
+        if (key == 27) return 0;
+        if (key == 'n') {
+            game_manager->createWorld();
+            break;
+        }
+        if (key == 'l') {
+            if (game_manager->loadWorld(argv[0]) != nullptr) break;
+            system("cls");
+            game_manager->displayMenu();
+        }
+    }
 
     while (const int key = getch()) {
         if (key == 27) { // ESC key
@@ -26,37 +38,43 @@ int main(int argc, char* argv[]) {
 
         switch (key) {
             case 't':
-                world->makeTurn();
+                game_manager->getWorld()->makeTurn();
                 break;
             case KEY_UP:
                 game_manager->setPlayerDirection(UP);
+                game_manager->getWorld()->makeTurn();
                 break;
             case KEY_DOWN:
                 game_manager->setPlayerDirection(DOWN);
+                game_manager->getWorld()->makeTurn();
                 break;
             case KEY_LEFT:
                 game_manager->setPlayerDirection(LEFT);
+                game_manager->getWorld()->makeTurn();
                 break;
             case KEY_RIGHT:
                 game_manager->setPlayerDirection(RIGHT);
+                game_manager->getWorld()->makeTurn();
                 break;
             case 'p':
-                world->getPlayer()->activateAbility();
+                if (game_manager->getWorld()->getPlayer() != nullptr) game_manager->getWorld()->getPlayer()->activateAbility();
                 break;
             case 's':
                 game_manager->saveWorldToFile(argv[0]);
                 break;
             case 'n':
-                game_manager->deleteWorld();
-                world = game_manager->createWorld();
+                if (game_manager->getWorld() != nullptr) {
+                    game_manager->deleteWorld();
+                }
+                game_manager->createWorld();
                 break;
             case 'l':
-                world = game_manager->loadWorld(argv[0], world);
+                game_manager->loadWorld(argv[0]);
                 break;
             default:
                 break;
         }
 
-        world->draw();
+        game_manager->getWorld()->draw();
     }
 }
